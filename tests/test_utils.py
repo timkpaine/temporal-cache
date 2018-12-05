@@ -23,3 +23,23 @@ class TestConfig:
     def test_daily(self):
         from temporalcaching import daily
         daily(None)
+
+    def test_seconds(self):
+        import time
+        from random import random
+        from temporalcaching import seconds
+
+        @seconds(1)
+        def foo():
+            return random()
+
+        print('running first')
+        x = foo()
+        print('checking cached')
+        assert x == foo()
+
+        # expire
+        time.sleep(2)
+        print('checking cache expired')
+        assert x != foo()
+        print('success')
