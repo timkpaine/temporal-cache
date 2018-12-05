@@ -12,8 +12,8 @@ install:
 
 script: make test
 
-# after_success:
-#     - codecov --token f8f2787b-4aa9-4161-8b13-88ddde282d57
+after_success:
+    - codecov --token 35d2df00-6b24-4d82-8283-52f93865bf55
 
 branches:
   only:
