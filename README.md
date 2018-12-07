@@ -10,6 +10,17 @@ Time-based cache invalidation
 [![Docs](https://img.shields.io/readthedocs/temporal-cache.svg)](https://temporal-cache.readthedocs.io)
 
 
+
+## Why?
+I needed something that would automagically refresh at 4:00pm when markets close.
+
+```python3
+
+    @expire(hour=4)
+    def fetchFinancialData():
+    
+```
+
 ## Interval Cache
 The interval cache expires every `time` interval since its first use
 
@@ -30,3 +41,5 @@ The expire cache expires on the time given, in scheduler/cron style.
     def myfoo():
         '''myfoo's lru_cache will expire on the second minute, fifth second of every hour, every day, etc'''
 ```
+
+
