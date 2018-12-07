@@ -65,3 +65,82 @@ class TestExpire:
         print('checking cache expired')
         assert x == foo()
         print('success')
+
+
+    def test_checks(self):
+        from random import random
+        from temporalcache import expire, TCException
+
+        try:
+            @expire(60)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+        try:
+            @expire(minute=60)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+        try:
+            @expire(hour=24)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+        try:
+            @expire(day=0)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+
+        try:
+            @expire(day=32)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+        try:
+            @expire(week=0)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+
+        try:
+            @expire(week=6)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+        try:
+            @expire(month=0)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass
+
+        try:
+            @expire(month=13)
+            def foo():
+                return random()
+            raise Exception('')
+        except TCException:
+            pass

@@ -1,6 +1,10 @@
 from functools import lru_cache
 
 
+class TCException(Exception):
+    pass
+
+
 def _base(last, now, lap, offset, attr):
     '''
     last - last datetime
