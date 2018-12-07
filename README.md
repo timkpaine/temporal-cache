@@ -16,7 +16,7 @@ I needed something that would automagically refresh at 4:00pm when markets close
 
 ```python3
 
-    @expire(hour=4)
+    @expire(hour=16)
     def fetchFinancialData():
     
 ```
