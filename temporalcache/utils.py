@@ -17,21 +17,21 @@ def _base(last, now, lap, offset, attr):
     diff = round(now.timestamp(), 0) - round(last.timestamp(), 0)
     min_gap = offset - getattr(last, attr)
     if diff > offset:
-        print('b3', attr)
+        # print('b3', attr)
         return True
 
     if getattr(last, attr) < lap:
         if getattr(now, attr) > lap:
-            print('b1', attr)
+            # print('b1', attr)
             return True
-        print('b2', attr)
+        # print('b2', attr)
         return False
 
     # last started after :X, so if now > last + interval, or if now > :X
     elif getattr(now, attr) > lap and diff > min_gap:
-        print('b4', attr)
+        # print('b4', attr)
         return True
-    print('b5', attr)
+    # print('b5', attr)
     return False
 
 
