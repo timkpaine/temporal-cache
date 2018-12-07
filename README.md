@@ -22,11 +22,11 @@ The interval cache expires every `time` interval since its first use
 
 
 ## Expire Cache
-The expire cache expires on the time given.
+The expire cache expires on the time given, in scheduler/cron style.
 
 ```python3
 
-    @interval(seconds=5, minutes=2)
+    @expire(second=5, minute=2)
     def myfoo():
-        '''myfoo's lru_cache will expire 2 minutes, 5 seconds after last use'''
+        '''myfoo's lru_cache will expire on the second minute, fifth second of every hour, every day, etc'''
 ```
