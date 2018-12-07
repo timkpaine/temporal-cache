@@ -2,16 +2,16 @@ build:  ## Build the repository
 	python3 setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find temporalcaching -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/\.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
+	python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find temporalcache -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/\.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
 	
 test: ## run the tests for travis CI
-	@ python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find temporalcaching -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/\.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
+	@ python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find temporalcache -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/\.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
 
 annotate: ## MyPy type annotation check
-	mypy -s temporalcaching  
+	mypy -s temporalcache  
 
 annotate_l: ## MyPy type annotation check - count only
-	mypy -s temporalcaching | wc -l 
+	mypy -s temporalcache | wc -l 
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 

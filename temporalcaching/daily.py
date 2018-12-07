@@ -1,2 +1,0 @@
-def daily(foo):
-    pass

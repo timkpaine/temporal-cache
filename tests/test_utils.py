@@ -1,7 +1,8 @@
 from mock import patch, MagicMock
+from datetime import datetime, timedelta
 
 
-class TestConfig:
+class TestUtils:
     def setup(self):
         pass
         # setup() before each test method
@@ -20,26 +21,5 @@ class TestConfig:
         pass
         # teardown_class() after any methods in this class
 
-    def test_daily(self):
-        from temporalcaching import daily
-        daily(None)
-
-    def test_seconds(self):
-        import time
-        from random import random
-        from temporalcaching import seconds
-
-        @seconds(1)
-        def foo():
-            return random()
-
-        print('running first')
-        x = foo()
-        print('checking cached')
-        assert x == foo()
-
-        # expire
-        time.sleep(2)
-        print('checking cache expired')
-        assert x != foo()
-        print('success')
+    def test_calc(self):
+        from temporalcache.utils import calc
