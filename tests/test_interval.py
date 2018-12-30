@@ -41,6 +41,27 @@ class TestInterval:
         assert x != foo()
         print('success')
 
+    def test_mutable(self):
+        from random import random
+        from temporalcache import interval
+
+        self._delay = datetime.timedelta(seconds=0)
+
+        @interval()
+        def foo(*args, **kwargs):
+            return random()
+
+        print('running first')
+        x = foo([1, 2, 3], test={'a': 1, 'b': 2})
+        print('checking cached')
+        assert x == foo([1, 2, 3], test={'a': 1, 'b': 2})
+
+        # expire
+        self._delay = datetime.timedelta(seconds=2)
+        print('checking cache expired')
+        assert x != foo([1, 2, 3], test={'a': 1, 'b': 2})
+        print('success')
+
     def test_seconds(self):
         from random import random
         from temporalcache import interval

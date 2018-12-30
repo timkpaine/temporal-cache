@@ -4,8 +4,12 @@ build:  ## Build the repository
 testpy: ## Clean and Make unit tests
 	python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find temporalcache -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/\.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
 	
-test: ## run the tests for travis CI
+test: lint ## run the tests for travis CI
 	@ python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find temporalcache -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/\.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
+
+lint: ## run linter
+	pylint temporalcache || echo
+	flake8 temporalcache 
 
 annotate: ## MyPy type annotation check
 	mypy -s temporalcache  
