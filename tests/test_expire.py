@@ -5,6 +5,7 @@ from mock import patch, MagicMock
 class TestExpire:
     def setup(self):
         self._olddatetime = datetime.datetime
+
         class NewDateTime(datetime.datetime):
             @classmethod
             def now(cls):
@@ -24,7 +25,7 @@ class TestExpire:
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 0)
         self._delay = datetime.timedelta(seconds=0)
-
+ 
         @expire(1)
         def foo():
             return random()
@@ -38,6 +39,28 @@ class TestExpire:
         self._delay = datetime.timedelta(seconds=2)
         print('checking cache expired')
         assert x != foo()
+        print('success')
+
+    def test_mutable(self):
+        from random import random
+        from temporalcache import expire
+
+        self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
+        self._delay = datetime.timedelta(seconds=0)
+
+        @expire()
+        def foo(*args, **kwargs):
+            return random()
+
+        print('running first')
+        x = foo([1, 2, 3], test={'a': 1, 'b': 2})
+        print('checking cached')
+        assert x == foo([1, 2, 3], test={'a': 1, 'b': 2})
+
+        # expire
+        self._delay = datetime.timedelta(seconds=61)
+        print('checking cache expired')
+        assert x != foo([1, 2, 3], test={'a': 1, 'b': 2})
         print('success')
 
     def test_seconds(self):
@@ -65,7 +88,6 @@ class TestExpire:
         print('checking cache expired')
         assert x == foo()
         print('success')
-
 
     def test_checks(self):
         from random import random

@@ -1,5 +1,6 @@
 import datetime
 from functools import wraps, lru_cache
+from frozendict import frozendict
 from .utils import should_expire, TCException
 
 
@@ -37,7 +38,6 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
 
     def _wrapper(foo):
         last = datetime.datetime.now()
-
         foo = lru_cache(maxsize)(foo)
 
         @wraps(foo)
@@ -47,8 +47,11 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
             now = datetime.datetime.now()
             if should_expire(last, now, second, minute, hour, day, week, month):
                 foo.cache_clear()
-
             last = now
+
+            args = tuple([frozendict(arg) if isinstance(arg, dict) else tuple(arg) if isinstance(arg, list) else arg for arg in args])
+            kwargs = {k: frozendict(v) if isinstance(v, dict) else tuple(v) if isinstance(v, list) else v for k, v in kwargs.items()}
+
             return foo(*args, **kwargs)
         return _wrapped_foo
     return _wrapper

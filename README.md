@@ -43,3 +43,6 @@ The expire cache expires on the time given, in scheduler/cron style.
 ```
 
 
+## Caveats
+Python hashing symantics persist. Dicts will be frozen, lists will be converted to tuples. Users are advised to pre-freeze to avoid issues.
+
