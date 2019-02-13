@@ -2,13 +2,13 @@ build:  ## Build the repository
 	python3 setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3 -m nose2 -v tests --with-coverage --coverage=temporalcache
+	python3 -m pytest tests --cov=temporalcache
 
 test: lint ## run the tests for travis CI
-	@ python3 -m nose2 -v tests --with-coverage --coverage=temporalcache
+	@ python3 -m pytest tests --cov=temporalcache
 
 lint: ## run linter
-	pylint temporalcache || echo
+	# pylint temporalcache || echo
 	flake8 temporalcache 
 
 annotate: ## MyPy type annotation check
