@@ -2,10 +2,10 @@ build:  ## Build the repository
 	python3 setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3 -m pytest tests --cov=temporalcache
+	python3 -m pytest -v tests --cov=temporalcache
 
 test: lint ## run the tests for travis CI
-	@ python3 -m pytest tests --cov=temporalcache
+	@ python3 -m pytest -v tests --cov=temporalcache
 
 lint: ## run linter
 	# pylint temporalcache || echo
