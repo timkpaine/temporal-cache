@@ -8,8 +8,10 @@ test: lint ## run the tests for travis CI
 	@ python3 -m pytest -v tests --cov=temporalcache
 
 lint: ## run linter
-	# pylint temporalcache || echo
 	flake8 temporalcache 
+
+fix:  ## run autopep8/tslint fix
+	autopep8 --in-place -r -a -a crowdsource/
 
 annotate: ## MyPy type annotation check
 	mypy -s temporalcache  
