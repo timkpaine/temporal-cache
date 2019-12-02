@@ -44,19 +44,19 @@ def _minutely(last, now, minutely):
 
 
 def _hourly(last, now, hourly):
-    return _base(last, now, hourly, 3600*24, 'hour')
+    return _base(last, now, hourly, 3600 * 24, 'hour')
 
 
 def _daily(last, now, daily):
-    return _base(last, now, daily, 3600*24*7, 'day')
+    return _base(last, now, daily, 3600 * 24 * 7, 'day')
 
 
 def _weekly(last, now, weekly):
-    return _base(last, now, weekly, 3600*24*7*4.34, 'week')  # FIXME # of weeks should be derived from calendar
+    return _base(last, now, weekly, 3600 * 24 * 7 * 4.34, 'week')  # FIXME # of weeks should be derived from calendar
 
 
 def _monthly(last, now, monthly):
-    return _base(last, now, monthly, 3600*24*365, 'month')
+    return _base(last, now, monthly, 3600 * 24 * 365, 'month')
 
 
 def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=None, weekly=None, monthly=None, maxsize=128):
@@ -79,9 +79,9 @@ def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=No
 @lru_cache(1000)
 def calc(seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0):
     return seconds + \
-           minutes*60 + \
-           hours*60*60 + \
-           days*24*60*60 + \
-           weeks*7*24*60*60 + \
-           months*30*7*24*60*60 + \
-           years*365*24*60*60
+        minutes * 60 + \
+        hours * 60 * 60 + \
+        days * 24 * 60 * 60 + \
+        weeks * 7 * 24 * 60 * 60 + \
+        months * 30 * 7 * 24 * 60 * 60 + \
+        years * 365 * 24 * 60 * 60
