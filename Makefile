@@ -11,7 +11,7 @@ lint: ## run linter
 	flake8 temporalcache 
 
 fix:  ## run autopep8/tslint fix
-	autopep8 --in-place -r -a -a crowdsource/
+	autopep8 --in-place -r -a -a temporalcache/
 
 annotate: ## MyPy type annotation check
 	mypy -s temporalcache  
