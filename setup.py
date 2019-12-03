@@ -15,6 +15,7 @@ setup(
     version='0.0.5',
     description='Time based function caching',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/timkpaine/temporal-cache',
     download_url='https://github.com/timkpaine/temporal-cache/archive/v0.0.5.tar.gz',
     author='Tim Paine',
