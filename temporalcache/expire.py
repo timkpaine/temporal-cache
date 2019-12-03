@@ -1,10 +1,11 @@
 import datetime
 from functools import wraps, lru_cache
 from frozendict import frozendict
+from .persistent_lru_cache import persistent_lru_cache
 from .utils import should_expire, TCException
 
 
-def expire(second=None, minute=None, hour=None, day=None, week=None, month=None, maxsize=128):
+def expire(second=None, minute=None, hour=None, day=None, week=None, month=None, maxsize=128, persistent=''):
     '''Expires all entries in the cache @ whole number time
 
         for example, @expire(0, 30, 16) will expire the cache at 4:30pm every day
@@ -38,7 +39,10 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
 
     def _wrapper(foo):
         last = datetime.datetime.now()
-        foo = lru_cache(maxsize)(foo)
+        if persistent:
+            foo = persistent_lru_cache(persistent, maxsize=maxsize)(foo)
+        else:
+            foo = lru_cache(maxsize)(foo)
 
         @wraps(foo)
         def _wrapped_foo(*args, **kwargs):

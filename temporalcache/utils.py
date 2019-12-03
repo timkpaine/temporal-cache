@@ -76,7 +76,7 @@ def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=No
     return all((sec_res, min_res, hou_res, dai_res, wee_res, mon_res))
 
 
-@lru_cache(1000)
+@lru_cache(100)
 def calc(seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0):
     return seconds + \
         minutes * 60 + \
