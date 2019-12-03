@@ -32,3 +32,27 @@ def interval(seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0, 
             return foo(*args, **kwargs)
         return _wrapped_foo
     return _wrapper
+
+
+def minutely(maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return interval(seconds=60, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
+
+
+def hourly(maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return interval(minutes=60, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
+
+
+def daily(maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return interval(hours=24, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
+
+
+def monthly(maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return interval(months=1, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper

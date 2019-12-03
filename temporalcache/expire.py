@@ -59,3 +59,27 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
             return foo(*args, **kwargs)
         return _wrapped_foo
     return _wrapper
+
+
+def minutely(on=0, maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return expire(second=on, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
+
+
+def hourly(on=0, maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return expire(minute=on, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
+
+
+def daily(on=0, maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return expire(hour=on, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
+
+
+def monthly(on=0, maxsize=128, persistent=''):
+    def _wrapper(foo):
+        return expire(day=on, maxsize=maxsize, persistent=persistent)(foo)
+    return _wrapper
