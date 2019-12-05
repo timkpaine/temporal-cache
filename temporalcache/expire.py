@@ -5,7 +5,7 @@ from .persistent_lru_cache import persistent_lru_cache
 from .utils import should_expire, TCException
 
 
-def expire(second=None, minute=None, hour=None, day=None, week=None, month=None, maxsize=128, persistent=''):
+def expire(second=None, minute=None, hour=None, day=None, week=None, month=None, maxsize=128, persistent='', custom=None, **kwargs):
     '''Expires all entries in the cache @ whole number time
 
         for example, @expire(0, 30, 16) will expire the cache at 4:30pm every day
@@ -39,7 +39,10 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
 
     def _wrapper(foo):
         last = datetime.datetime.now()
-        if persistent:
+
+        if custom:
+            foo = custom(**kwargs)(foo)
+        elif persistent:
             foo = persistent_lru_cache(persistent, maxsize=maxsize)(foo)
         else:
             foo = lru_cache(maxsize)(foo)
@@ -61,25 +64,25 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
     return _wrapper
 
 
-def minutely(on=0, maxsize=128, persistent=''):
+def minutely(on=0, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(second=on, maxsize=maxsize, persistent=persistent)(foo)
+        return expire(second=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
 
 
-def hourly(on=0, maxsize=128, persistent=''):
+def hourly(on=0, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(minute=on, maxsize=maxsize, persistent=persistent)(foo)
+        return expire(minute=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
 
 
-def daily(on=0, maxsize=128, persistent=''):
+def daily(on=0, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(hour=on, maxsize=maxsize, persistent=persistent)(foo)
+        return expire(hour=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
 
 
-def monthly(on=0, maxsize=128, persistent=''):
+def monthly(on=0, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(day=on, maxsize=maxsize, persistent=persistent)(foo)
+        return expire(day=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
