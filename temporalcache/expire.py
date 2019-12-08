@@ -5,7 +5,7 @@ from .persistent_lru_cache import persistent_lru_cache
 from .utils import should_expire, TCException
 
 
-def expire(second=None, minute=None, hour=None, day=None, week=None, month=None, maxsize=128, persistent='', custom=None, **kwargs):
+def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week=None, month=None, maxsize=128, persistent='', custom=None, **kwargs):
     '''Expires all entries in the cache @ whole number time
 
         for example, @expire(0, 30, 16) will expire the cache at 4:30pm every day
@@ -24,18 +24,21 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
 
     if day is not None and (day <= 0 or day > 31):
         raise TCException('day must be > 0, < 32')
-    elif day is not None:
-        day += 1  # for convenience
+    # elif day is not None:
+    #     day += 1  # for convenience
+
+    if day_of_week is not None and (day_of_week <= 0 or day > 8):
+        raise TCException('day_of_weel must be > 0, < 8')
 
     if week is not None and (week <= 0 or week > 5):
         raise TCException('day must be > 0, < 6')
-    elif week is not None:
-        week += 1  # for convenience
+    # elif week is not None:
+    #     week += 1  # for convenience
 
     if month is not None and (month <= 0 or month > 12):
-        raise TCException('month must be < 5')
-    elif month is not None:
-        month += 1  # for convenience
+        raise TCException('month must be >0, < 13')
+    # elif month is not None:
+    #     month += 1  # for convenience
 
     def _wrapper(foo):
         last = datetime.datetime.now()
@@ -52,7 +55,7 @@ def expire(second=None, minute=None, hour=None, day=None, week=None, month=None,
             nonlocal last
 
             now = datetime.datetime.now()
-            if should_expire(last, now, second, minute, hour, day, week, month):
+            if should_expire(last, now, second, minute, hour, day, day_of_week, week, month):
                 foo.cache_clear()
             last = now
 

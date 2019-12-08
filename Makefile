@@ -7,6 +7,9 @@ testpy: ## Clean and Make unit tests
 test: lint ## run the tests for travis CI
 	@ python3 -m pytest -v tests --cov=temporalcache
 
+tests:  ## run the tests
+	@ python3 -m pytest -vvv tests --cov=temporalcache
+
 lint: ## run linter
 	flake8 temporalcache 
 

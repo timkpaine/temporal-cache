@@ -25,7 +25,7 @@ def interval(seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0, 
             nonlocal last
 
             now = datetime.datetime.now()
-            if (now - last).seconds > calc(seconds, minutes, hours, days, weeks, months, years):
+            if (now - last).total_seconds() > calc(seconds, minutes, hours, days, weeks, months, years):
                 foo.cache_clear()
             last = now
 
