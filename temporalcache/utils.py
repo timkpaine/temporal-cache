@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import lru_cache, wraps
 from six import with_metaclass
 from abc import ABCMeta, abstractmethod
 
@@ -11,6 +11,13 @@ class StorageBase(with_metaclass(ABCMeta)):
     @abstractmethod
     def cache_clear(self):
         pass
+
+    def __call__(self, foo):
+        '''No caching by default'''
+        @wraps(foo)
+        def _wrapper(*args, **kwargs):
+            return foo(*args, **kwargs)
+        return _wrapper
 
 
 def _base(last, now, lap, offset, multiple, attr):
