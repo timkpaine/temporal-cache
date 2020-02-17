@@ -1,14 +1,14 @@
 build:  ## Build the repository
-	python3 setup.py build 
+	python3.7 setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3 -m pytest -v tests --cov=temporalcache
+	python3.7 -m pytest -v tests --cov=temporalcache
 
 test: lint ## run the tests for travis CI
-	@ python3 -m pytest -v tests --cov=temporalcache
+	@ python3.7 -m pytest -v tests --cov=temporalcache
 
 tests:  ## run the tests
-	@ python3 -m pytest -vvv tests --cov=temporalcache
+	@ python3.7 -m pytest -vvv tests --cov=temporalcache
 
 lint: ## run linter
 	flake8 temporalcache 
@@ -42,8 +42,8 @@ docs:  ## make documentation
 
 dist:  ## dist to pypi
 	rm -rf dist build
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
+	python3.7 setup.py sdist
+	python3.7 setup.py bdist_wheel
 	twine check dist/* && twine upload dist/*
 
 # Thanks to Francoise at marmelab.com for this
