@@ -2,13 +2,10 @@ build:  ## Build the repository
 	python3.7 setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3.7 -m pytest -v tests --cov=temporalcache
-
-test: lint ## run the tests for travis CI
-	@ python3.7 -m pytest -v tests --cov=temporalcache
+	python3.7 -m pytest -v tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 tests:  ## run the tests
-	@ python3.7 -m pytest -vvv tests --cov=temporalcache
+	python3.7 -m pytest -vvv tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
 	flake8 temporalcache 

@@ -2,7 +2,7 @@
 Time-based cache invalidation
 
 [![Build Status](https://travis-ci.org/timkpaine/temporal-cache.svg?branch=master)](https://travis-ci.org/timkpaine/temporal-cache)
-[![Coverage](https://codecov.io/gh/timkpaine/temporal-cache/branch/master/graph/badge.svg)](https://codecov.io/gh/timkpaine/temporal-cache)
+[![Coverage](https://img.shields.io/azure-devops/coverage/tpaine154/temporal-cache/5)]()
 [![BCH compliance](https://bettercodehub.com/edge/badge/timkpaine/temporal-cache?branch=master)](https://bettercodehub.com/)
 [![License](https://img.shields.io/github/license/timkpaine/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
 [![PyPI](https://img.shields.io/pypi/v/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
