@@ -4,6 +4,8 @@ from os import path
 
 name = 'temporal-cache'
 here = path.abspath(path.dirname(__file__))
+pjoin = path.join
+
 
 def get_version(file, name='__version__'):
     path = os.path.realpath(file)
