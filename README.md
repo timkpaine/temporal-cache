@@ -10,6 +10,14 @@ Time-based cache invalidation
 [![Docs](https://img.shields.io/readthedocs/temporal-cache.svg)](https://temporal-cache.readthedocs.io)
 
 
+## Install
+From pip
+
+`pip install temporal-cache`
+
+Or from source
+
+`python setup.py install`
 
 ## Why?
 I needed something that would automagically refresh at 4:00pm when markets close.
