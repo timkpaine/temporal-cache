@@ -16,7 +16,7 @@ def get_version(file, name='__version__'):
         exec(f.read(), {}, version_ns)
     return version_ns[name]
 
-version = get_version(pjoin(here, name, '_version.py'))
+version = get_version(pjoin(here, 'temporalcache', '_version.py'))
 
 with open(pjoin(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
