@@ -2,6 +2,7 @@ from setuptools import setup, find_packages
 from codecs import open
 import os
 import os.path
+import io
 
 name = 'temporal-cache'
 here = os.path.abspath(os.path.dirname(__file__))
