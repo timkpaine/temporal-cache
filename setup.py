@@ -4,7 +4,7 @@ import os
 import os.path
 
 name = 'temporal-cache'
-here = os.path.abspath(path.dirname(__file__))
+here = os.path.abspath(os.path.dirname(__file__))
 pjoin = os.path.join
 
 
