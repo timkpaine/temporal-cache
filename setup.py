@@ -8,7 +8,7 @@ pjoin = path.join
 
 
 def get_version(file, name='__version__'):
-    path = os.path.realpath(file)
+    path = path.realpath(file)
     version_ns = {}
     with io.open(path, encoding="utf8") as f:
         exec(f.read(), {}, version_ns)
