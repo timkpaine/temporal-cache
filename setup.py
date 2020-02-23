@@ -2,27 +2,50 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
+name = 'temporal-cache'
 here = path.abspath(path.dirname(__file__))
+
+def get_version(file, name='__version__'):
+    path = os.path.realpath(file)
+    version_ns = {}
+    with io.open(path, encoding="utf8") as f:
+        exec(f.read(), {}, version_ns)
+    return version_ns[name]
+
+version = get_version(pjoin(here, name, '_version.py'))
 
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
-    requires = f.read().split()
+
+requires = [
+    'frozendict>=1.2',
+]
+
+requires_dev = [
+    'flake8>=3.7.8',
+    'mock',
+    'pytest>=4.3.0',
+    'pytest-cov>=2.6.1',
+    'Sphinx>=1.8.4',
+    'sphinx-markdown-builder>=0.5.2',
+] + requires
+
 
 setup(
-    name='temporal-cache',
-    version='0.0.5',
+    name=name,
+    version=version,
     description='Time based function caching',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/timkpaine/temporal-cache',
-    download_url='https://github.com/timkpaine/temporal-cache/archive/v0.0.5.tar.gz',
+    url='https://github.com/timkpaine/{name}'.format(name=name),
     author='Tim Paine',
     author_email='timothy.k.paine@gmail.com',
     license='Apache 2.0',
     install_requires=requires,
-    extras_require={'dev': requires + ['pytest', 'pytest-cov', 'pylint', 'flake8', 'autopep8', 'mock', 'codecov']},
+    extras_require={
+        'dev': requires_dev,
+    },
 
     classifiers=[
         'Development Status :: 3 - Alpha',

@@ -222,7 +222,7 @@ def persistent_lru_cache(filename, save_every=1, maxsize=128, typed=False):
                         # still adjusting the links.
                         root = oldroot[NEXT]
                         oldkey = root[KEY]
-                        _ = root[RESULT]
+                        _ = root[RESULT]  # noqa: F841
                         root[KEY] = root[RESULT] = None
                         # Now update the cache dictionary.
                         del cache[oldkey]
