@@ -8,10 +8,10 @@ tests:  ## run the tests
 	python3.7 -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	flake8 temporalcache 
+	python3.7 -m flake8 temporalcache 
 
 fix:  ## run autopep8/tslint fix
-	autopep8 --in-place -r -a -a temporalcache/
+	python3.7 -m autopep8 --in-place -r -a -a temporalcache/
 
 annotate: ## MyPy type annotation check
 	mypy -s temporalcache  

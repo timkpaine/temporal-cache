@@ -1,6 +1,5 @@
 import os
 import datetime
-from mock import patch, MagicMock
 from tempfile import NamedTemporaryFile
 
 

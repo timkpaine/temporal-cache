@@ -1,5 +1,4 @@
 import datetime
-from mock import patch, MagicMock
 
 
 class TestInterval:
