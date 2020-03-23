@@ -11,7 +11,7 @@ if os.name != "nt":
 
             class NewDateTime(datetime.datetime):
                 @classmethod
-                def now(cls):
+                def now(cls, tz=None):
                     ret = self._now + self._delay
                     print(self._now)
                     print(ret)

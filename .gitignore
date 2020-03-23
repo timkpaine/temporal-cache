@@ -105,3 +105,6 @@ venv.bak/
 docs/api
 docs/index.md
 python_junit.xml
+.DS_Store
+
+

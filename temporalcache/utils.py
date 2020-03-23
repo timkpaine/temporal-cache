@@ -45,34 +45,34 @@ def _base(last, now, lap, offset, multiple, attr):
 
 
 def _secondly(last, now, secondly):
-    return _base(last, now, secondly, 60, 1, 'second')
+    return _base(last=last, now=now, lap=secondly, offset=60, multiple=1, attr='second')
 
 
 def _minutely(last, now, minutely):
-    return _base(last, now, minutely, 3600, 60, 'minute')
+    return _base(last=last, now=now, lap=minutely, offset=3600, multiple=60, attr='minute')
 
 
-def _hourly(last, now, hourly):
-    return _base(last, now, hourly, 3600 * 24, 3600, 'hour')
+def _hourly(last, now, hourly, tz=None):
+    return _base(last=last, now=now, lap=hourly, offset=3600 * 24, multiple=3600, attr='hour')
 
 
-def _daily(last, now, daily):
-    return _base(last, now, daily, 3600 * 24 * 30, 3600 * 24, 'day')  # FIXME day should be derived from calendar
+def _daily(last, now, daily, tz=None):
+    return _base(last=last, now=now, lap=daily, offset=3600 * 24 * 30, multiple=3600 * 24, attr='day')  # FIXME day should be derived from calendar
 
 
-def _day_of_week(last, now, day_of_week):
-    return _base(last, now, day_of_week, 3600 * 24 * 7, 3600 * 24, 'day')
+def _day_of_week(last, now, day_of_week, tz=None):
+    return _base(last=last, now=now, lap=day_of_week, offset=3600 * 24 * 7, multiple=3600 * 24, attr='day')
 
 
-def _weekly(last, now, weekly):
-    return _base(last, now, weekly, 3600 * 24 * 7 * 4.34, 3600 * 24 * 7, 'week')  # FIXME # of weeks should be derived from calendar
+def _weekly(last, now, weekly, tz=None):
+    return _base(last=last, now=now, lap=weekly, offset=3600 * 24 * 7 * 4.34, multiple=3600 * 24 * 7, attr='week')  # FIXME # of weeks should be derived from calendar
 
 
-def _monthly(last, now, monthly):
-    return _base(last, now, monthly, 3600 * 24 * 365, 3600 * 24 * 7 * 4.34, 'month')  # FIXME # of weeks should be derived from calendar
+def _monthly(last, now, monthly, tz=None):
+    return _base(last=last, now=now, lap=monthly, offset=3600 * 24 * 365, multiple=3600 * 24 * 7 * 4.34, attr='month')  # FIXME # of weeks should be derived from calendar
 
 
-def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=None, day_of_week=None, weekly=None, monthly=None, maxsize=128):
+def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=None, day_of_week=None, weekly=None, monthly=None):
     '''should the cache expire?
     last - datetime
     now - datetime

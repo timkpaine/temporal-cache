@@ -1,4 +1,6 @@
 import datetime
+import pytz
+import time
 from mock import patch, MagicMock
 
 
@@ -8,7 +10,7 @@ class TestExpire:
 
         class NewDateTime(datetime.datetime):
             @classmethod
-            def now(cls):
+            def now(cls, tz=None):
                 ret = self._now + self._delay
                 print(self._now)
                 print(ret)
@@ -352,3 +354,19 @@ class TestExpire:
             raise Exception('')
         except TCException:
             pass
+
+class TestExpireTZ:
+    def test_tzexpire(self):
+        from random import random
+        from temporalcache import expire
+
+        now = datetime.datetime.now(tz=pytz.UTC)
+
+        @expire(second=now.second+3, hour=now.hour, tz='UTC')
+        def foo():
+            return random()
+        ret = foo()
+        time.sleep(1)
+        assert ret == foo()
+        time.sleep(2)
+        assert ret == foo()

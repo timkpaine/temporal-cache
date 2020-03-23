@@ -2,10 +2,10 @@ build:  ## Build the repository
 	python3.7 setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3.7 -m pytest -v tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python3.7 -m pytest -v temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 tests:  ## run the tests
-	python3.7 -m pytest -vvv tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python3.7 -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
 	flake8 temporalcache 
