@@ -1,11 +1,13 @@
 import datetime
+import pytz
+import time
 from functools import wraps, lru_cache
 from frozendict import frozendict
 from .persistent_lru_cache import persistent_lru_cache
 from .utils import should_expire, TCException
 
 
-def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week=None, month=None, maxsize=128, persistent='', custom=None, **kwargs):
+def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week=None, month=None, tz=None, maxsize=128, persistent='', custom=None, **kwargs):
     '''Expires all entries in the cache @ whole number time
 
         for example, @expire(0, 30, 16) will expire the cache at 4:30pm every day
@@ -40,8 +42,16 @@ def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week
     # elif month is not None:
     #     month += 1  # for convenience
 
+    tz = tz or time.tzname[time.daylight]
+
+    if isinstance(tz, str):
+        try:
+            tz = pytz.timezone(tz)
+        except pytz.UnknownTimeZoneError:
+            tz = datetime.tzinfo(tz)
+
     def _wrapper(foo):
-        last = datetime.datetime.now()
+        last = datetime.datetime.now(tz=tz)
 
         if custom:
             foo = custom(**kwargs)(foo)
@@ -54,7 +64,7 @@ def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week
         def _wrapped_foo(*args, **kwargs):
             nonlocal last
 
-            now = datetime.datetime.now()
+            now = datetime.datetime.now(tz=tz)
             if should_expire(last, now, second, minute, hour, day, day_of_week, week, month):
                 foo.cache_clear()
             last = now
@@ -67,25 +77,25 @@ def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week
     return _wrapper
 
 
-def minutely(on=0, maxsize=128, persistent='', custom=None, **kwargs):
+def minutely(on=0, tz=None, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(second=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
+        return expire(second=on, tz=tz, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
 
 
-def hourly(on=0, maxsize=128, persistent='', custom=None, **kwargs):
+def hourly(on=0, tz=None, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(minute=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
+        return expire(minute=on, tz=tz, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
 
 
-def daily(on=0, maxsize=128, persistent='', custom=None, **kwargs):
+def daily(on=0, tz=None, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(hour=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
+        return expire(hour=on, tz=tz, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
 
 
-def monthly(on=0, maxsize=128, persistent='', custom=None, **kwargs):
+def monthly(on=0, tz=None, maxsize=128, persistent='', custom=None, **kwargs):
     def _wrapper(foo):
-        return expire(day=on, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
+        return expire(day=on, tz=tz, maxsize=maxsize, persistent=persistent, custom=custom, **kwargs)(foo)
     return _wrapper
