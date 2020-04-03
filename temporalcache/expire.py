@@ -3,6 +3,7 @@ import pytz
 import time
 from functools import wraps, lru_cache
 from frozendict import frozendict
+from tzlocal import get_localzone
 from .persistent_lru_cache import persistent_lru_cache
 from .utils import should_expire, TCException
 
@@ -42,14 +43,13 @@ def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week
     # elif month is not None:
     #     month += 1  # for convenience
 
-    tz = tz or time.tzname[time.daylight]
+    tz = tz or get_localzone()
 
     if isinstance(tz, str):
         try:
             tz = pytz.timezone(tz)
         except pytz.UnknownTimeZoneError:
             tz = datetime.tzinfo(tz)
-
     def _wrapper(foo):
         last = datetime.datetime.now(tz=tz)
 
