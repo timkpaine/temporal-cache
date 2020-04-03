@@ -362,7 +362,7 @@ class TestExpireTZ:
 
         now = datetime.datetime.now(tz=pytz.UTC)
 
-        @expire(second=now.second + 3, hour=now.hour, tz='UTC')
+        @expire(second=(now.second + 3)%60, hour=now.hour, tz='UTC')
         def foo():
             return random()
         ret = foo()
