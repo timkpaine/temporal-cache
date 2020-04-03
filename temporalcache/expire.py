@@ -1,5 +1,6 @@
 import datetime
 import pytz
+import time
 from functools import wraps, lru_cache
 from frozendict import frozendict
 from tzlocal import get_localzone
@@ -42,7 +43,10 @@ def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week
     # elif month is not None:
     #     month += 1  # for convenience
 
-    tz = tz or get_localzone()
+    try:
+        tz = tz or get_localzone()
+    except AttributeError:
+        tz = time.tzname[time.daylight]
 
     if isinstance(tz, str):
         try:
