@@ -1,6 +1,5 @@
 import datetime
 import pytz
-import time
 from functools import wraps, lru_cache
 from frozendict import frozendict
 from tzlocal import get_localzone
@@ -50,6 +49,7 @@ def expire(second=None, minute=None, hour=None, day=None, day_of_week=None, week
             tz = pytz.timezone(tz)
         except pytz.UnknownTimeZoneError:
             tz = datetime.tzinfo(tz)
+
     def _wrapper(foo):
         last = datetime.datetime.now(tz=tz)
 
