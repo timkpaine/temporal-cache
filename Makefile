@@ -1,17 +1,17 @@
 build:  ## Build the repository
-	python3.7 setup.py build 
+	python setup.py build 
 
 testpy: ## Clean and Make unit tests
-	python3.7 -m pytest -v temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python -m pytest -v temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 tests:  ## run the tests
-	python3.7 -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	python3.7 -m flake8 temporalcache 
+	python -m flake8 temporalcache 
 
 fix:  ## run autopep8/tslint fix
-	python3.7 -m autopep8 --in-place -r -a -a temporalcache/
+	python -m autopep8 --in-place -r -a -a temporalcache/
 
 annotate: ## MyPy type annotation check
 	mypy -s temporalcache  
@@ -27,10 +27,10 @@ clean: ## clean the repository
 	make -C ./docs clean
 
 install:  ## install to site-packages
-	pip3 install .
+	python -m pip install .
 
 preinstall:  ## install dependencies
-	pip3 install -r requirements.txt
+	python -m pip install -r requirements.txt
 
 
 docs:  ## make documentation
@@ -39,9 +39,9 @@ docs:  ## make documentation
 
 dist:  ## dist to pypi
 	rm -rf dist build
-	python3.7 setup.py sdist
-	python3.7 setup.py bdist_wheel
-	twine check dist/* && twine upload dist/*
+	python setup.py sdist
+	python setup.py bdist_wheel
+	python -m twine check dist/* && twine upload dist/*
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help
