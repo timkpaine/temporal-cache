@@ -30,7 +30,18 @@ def _base(last, now, lap, offset, multiple, attr):
     multiple - what to multiply attr by to get seconds
     '''
     # last started before :X, so if now > :X
-    diff = round(now.timestamp(), 0) - round(last.timestamp(), 0)
+
+    # handle windows timestamp issues
+    try:
+        now_ts = now.timestamp()
+    except OSError:
+        now_ts = 0
+    try:
+        last_ts = last.timestamp()
+    except OSError:
+        last_ts = 0
+
+    diff = round(now_ts, 0) - round(last_ts, 0)
     min_gap = offset - getattr(last, attr) * multiple
     if diff > offset:
         return True
