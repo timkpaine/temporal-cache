@@ -4,6 +4,7 @@ from datetime import timedelta, datetime
 class TestUtils:
     def test_calc(self):
         from temporalcache.utils import calc
+
         assert calc(7, 6, 5, 4, 3, 2, 1) == 70002367
 
     def test_should_expire_seconds(self):
@@ -75,6 +76,7 @@ class TestUtils:
 
     def test_should_expire_boundary(self):
         from temporalcache.utils import should_expire
+
         now = datetime(1999, 12, 31, 23, 59, 58)
         next_second = now + timedelta(seconds=1)
         next_secondp = now + timedelta(seconds=2)

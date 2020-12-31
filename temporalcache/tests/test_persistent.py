@@ -4,6 +4,7 @@ from tempfile import NamedTemporaryFile
 
 
 if os.name != "nt":
+
     class TestExpire:
         def setup(self):
             self._olddatetime = datetime.datetime
@@ -29,20 +30,21 @@ if os.name != "nt":
             self._delay = datetime.timedelta(seconds=0)
 
             with NamedTemporaryFile() as f:
+
                 @expire(1, persistent=f.name, maxsize=2)
                 def foo(test):
                     return random()
 
-                print('running first')
-                x = foo('a')
-                print('checking cached')
-                assert x == foo('a')
-                foo('b')
-                foo('c')
-                x = foo('d')
+                print("running first")
+                x = foo("a")
+                print("checking cached")
+                assert x == foo("a")
+                foo("b")
+                foo("c")
+                x = foo("d")
 
                 # expire
                 self._delay = datetime.timedelta(seconds=2)
-                print('checking cache expired')
-                assert x != foo('d')
-                print('success')
+                print("checking cache expired")
+                assert x != foo("d")
+                print("success")

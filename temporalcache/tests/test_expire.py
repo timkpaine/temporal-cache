@@ -31,16 +31,16 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
-        print('checking cached')
+        print("checking cached")
         assert x == foo()
 
         # expire
         self._delay = datetime.timedelta(seconds=2)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_mutable(self):
         from random import random
@@ -53,16 +53,16 @@ class TestExpire:
         def foo(*args, **kwargs):
             return random()
 
-        print('running first')
-        x = foo([1, 2, 3], test={'a': 1, 'b': 2})
-        print('checking cached')
-        assert x == foo([1, 2, 3], test={'a': 1, 'b': 2})
+        print("running first")
+        x = foo([1, 2, 3], test={"a": 1, "b": 2})
+        print("checking cached")
+        assert x == foo([1, 2, 3], test={"a": 1, "b": 2})
 
         # expire
         self._delay = datetime.timedelta(seconds=61)
-        print('checking cache expired')
-        assert x != foo([1, 2, 3], test={'a': 1, 'b': 2})
-        print('success')
+        print("checking cache expired")
+        assert x != foo([1, 2, 3], test={"a": 1, "b": 2})
+        print("success")
 
     def test_seconds(self):
         from random import random
@@ -75,20 +75,20 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(seconds=58)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(seconds=59)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_minutes(self):
         from random import random
@@ -101,20 +101,20 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(minutes=3)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(minutes=4)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_minutely(self):
         from random import random
@@ -127,20 +127,20 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(seconds=3)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(seconds=4)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_hourly(self):
         from random import random
@@ -153,20 +153,20 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(minutes=3)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(minutes=4)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_hours(self):
         from random import random
@@ -179,20 +179,20 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(hours=3)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(hours=4)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_daily(self):
         from random import random
@@ -205,20 +205,20 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(hours=3)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(hours=4)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_days(self):
         from random import random
@@ -231,30 +231,32 @@ class TestExpire:
         def foo():
             return random()
 
-        print('running first')
+        print("running first")
         x = foo()
 
-        print('checking cached')
+        print("checking cached")
         self._delay = datetime.timedelta(days=3)
         assert x == foo()
 
-        print('checking cached')
+        print("checking cached")
 
         # expire
         self._delay = datetime.timedelta(days=4)
-        print('checking cache expired')
+        print("checking cache expired")
         assert x != foo()
-        print('success')
+        print("success")
 
     def test_checks1(self):
         from random import random
         from temporalcache import expire, TCException
 
         try:
+
             @expire(60)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -263,10 +265,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(minute=60)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -275,10 +279,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(hour=24)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -287,10 +293,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(day=0)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -299,10 +307,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(day=32)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -311,10 +321,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(week=0)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -323,10 +335,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(week=6)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -335,10 +349,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(month=0)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -347,10 +363,12 @@ class TestExpire:
         from temporalcache import expire, TCException
 
         try:
+
             @expire(month=13)
             def foo():
                 return random()
-            raise Exception('')
+
+            raise Exception("")
         except TCException:
             pass
 
@@ -362,9 +380,10 @@ class TestExpireTZ:
 
         now = datetime.datetime.now(tz=pytz.UTC)
 
-        @expire(second=(now.second + 3) % 60, hour=now.hour, tz='UTC')
+        @expire(second=(now.second + 3) % 60, hour=now.hour, tz="UTC")
         def foo():
             return random()
+
         ret = foo()
         time.sleep(1)
         assert ret == foo()

@@ -1,23 +1,14 @@
 build:  ## Build the repository
 	python setup.py build 
 
-testpy: ## Clean and Make unit tests
-	python -m pytest -v temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
-
 tests:  ## run the tests
 	python -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	python -m flake8 temporalcache 
+	python -m flake8 temporalcache setup.py
 
 fix:  ## run autopep8/tslint fix
-	python -m autopep8 --in-place -r -a -a temporalcache/
-
-annotate: ## MyPy type annotation check
-	mypy -s temporalcache  
-
-annotate_l: ## MyPy type annotation check - count only
-	mypy -s temporalcache | wc -l 
+	python -m black temporalcache/ setup.py
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
@@ -29,9 +20,8 @@ clean: ## clean the repository
 install:  ## install to site-packages
 	python -m pip install .
 
-preinstall:  ## install dependencies
-	python -m pip install -r requirements.txt
-
+dev:
+	python -m pip install .[dev]
 
 docs:  ## make documentation
 	make -C ./docs html
@@ -39,9 +29,8 @@ docs:  ## make documentation
 
 dist:  ## dist to pypi
 	rm -rf dist build
-	python setup.py sdist
-	python setup.py bdist_wheel
-	python -m twine check dist/* && twine upload dist/*
+	python setup.py sdist bdist_wheel
+	python -m twine check dist/* && python -m twine upload dist/* --skip-existing
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help

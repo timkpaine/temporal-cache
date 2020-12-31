@@ -13,22 +13,24 @@ class StorageBase(with_metaclass(ABCMeta)):
         pass
 
     def __call__(self, foo):
-        '''No caching by default'''
+        """No caching by default"""
+
         @wraps(foo)
         def _wrapper(*args, **kwargs):
             return foo(*args, **kwargs)
+
         return _wrapper
 
 
 def _base(last, now, lap, offset, multiple, attr):
-    '''
+    """
     last - last datetime
     now - current datetime
     lap - at what point to "roll over"
     offset - how many seconds between laps
     attr - what to look at
     multiple - what to multiply attr by to get seconds
-    '''
+    """
     # last started before :X, so if now > :X
 
     # handle windows timestamp issues
@@ -56,41 +58,83 @@ def _base(last, now, lap, offset, multiple, attr):
 
 
 def _secondly(last, now, secondly):
-    return _base(last=last, now=now, lap=secondly, offset=60, multiple=1, attr='second')
+    return _base(last=last, now=now, lap=secondly, offset=60, multiple=1, attr="second")
 
 
 def _minutely(last, now, minutely):
-    return _base(last=last, now=now, lap=minutely, offset=3600, multiple=60, attr='minute')
+    return _base(
+        last=last, now=now, lap=minutely, offset=3600, multiple=60, attr="minute"
+    )
 
 
 def _hourly(last, now, hourly, tz=None):
-    return _base(last=last, now=now, lap=hourly, offset=3600 * 24, multiple=3600, attr='hour')
+    return _base(
+        last=last, now=now, lap=hourly, offset=3600 * 24, multiple=3600, attr="hour"
+    )
 
 
 def _daily(last, now, daily, tz=None):
-    return _base(last=last, now=now, lap=daily, offset=3600 * 24 * 30, multiple=3600 * 24, attr='day')  # FIXME day should be derived from calendar
+    return _base(
+        last=last,
+        now=now,
+        lap=daily,
+        offset=3600 * 24 * 30,
+        multiple=3600 * 24,
+        attr="day",
+    )  # FIXME day should be derived from calendar
 
 
 def _day_of_week(last, now, day_of_week, tz=None):
-    return _base(last=last, now=now, lap=day_of_week, offset=3600 * 24 * 7, multiple=3600 * 24, attr='day')
+    return _base(
+        last=last,
+        now=now,
+        lap=day_of_week,
+        offset=3600 * 24 * 7,
+        multiple=3600 * 24,
+        attr="day",
+    )
 
 
 def _weekly(last, now, weekly, tz=None):
-    return _base(last=last, now=now, lap=weekly, offset=3600 * 24 * 7 * 4.34, multiple=3600 * 24 * 7, attr='week')  # FIXME # of weeks should be derived from calendar
+    return _base(
+        last=last,
+        now=now,
+        lap=weekly,
+        offset=3600 * 24 * 7 * 4.34,
+        multiple=3600 * 24 * 7,
+        attr="week",
+    )  # FIXME # of weeks should be derived from calendar
 
 
 def _monthly(last, now, monthly, tz=None):
-    return _base(last=last, now=now, lap=monthly, offset=3600 * 24 * 365, multiple=3600 * 24 * 7 * 4.34, attr='month')  # FIXME # of weeks should be derived from calendar
+    return _base(
+        last=last,
+        now=now,
+        lap=monthly,
+        offset=3600 * 24 * 365,
+        multiple=3600 * 24 * 7 * 4.34,
+        attr="month",
+    )  # FIXME # of weeks should be derived from calendar
 
 
-def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=None, day_of_week=None, weekly=None, monthly=None):
-    '''should the cache expire?
+def should_expire(
+    last,
+    now,
+    secondly=None,
+    minutely=None,
+    hourly=None,
+    daily=None,
+    day_of_week=None,
+    weekly=None,
+    monthly=None,
+):
+    """should the cache expire?
     last - datetime
     now - datetime
 
     if yearly:
         necessary_distance = calc(0, 0, 0, 0, 0, 0, yearly)
-    '''
+    """
     sec_res = _secondly(last, now, secondly) if secondly is not None else True
     min_res = _minutely(last, now, minutely) if minutely is not None else True
     hou_res = _hourly(last, now, hourly) if hourly is not None else True
@@ -103,10 +147,12 @@ def should_expire(last, now, secondly=None, minutely=None, hourly=None, daily=No
 
 @lru_cache(1000)
 def calc(seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0):
-    return seconds + \
-        minutes * 60 + \
-        hours * 60 * 60 + \
-        days * 24 * 60 * 60 + \
-        weeks * 7 * 24 * 60 * 60 + \
-        months * 30 * 7 * 24 * 60 * 60 + \
-        years * 365 * 24 * 60 * 60
+    return (
+        seconds
+        + minutes * 60
+        + hours * 60 * 60
+        + days * 24 * 60 * 60
+        + weeks * 7 * 24 * 60 * 60
+        + months * 30 * 7 * 24 * 60 * 60
+        + years * 365 * 24 * 60 * 60
+    )

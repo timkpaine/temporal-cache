@@ -1,4 +1,4 @@
-'''The MIT License (MIT)
+"""The MIT License (MIT)
 
 Copyright (c) 2013 abarnert
 
@@ -18,7 +18,7 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
+"""
 """persistent_lru_cache.py - A persistent LRU cache decorator
 """
 # Based on lru_cache from functools in the standard library, which
@@ -26,7 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # Raymond Hettinger <python at rcn.com>. Persistence added by
 # Andrew Barnert <abarnert at yahoo.com>.
 
-__all__ = ['persistent_lru_cache']
+__all__ = ["persistent_lru_cache"]
 
 try:
     import atexit
@@ -35,11 +35,15 @@ try:
     from collections import namedtuple
     from _thread import RLock
 except BaseException:
-    class RLock:
-        'Dummy reentrant lock for builds without threads'
 
-        def __enter__(self): pass
-        def __exit__(self, exctype, excinst, exctb): pass
+    class RLock:
+        "Dummy reentrant lock for builds without threads"
+
+        def __enter__(self):
+            pass
+
+        def __exit__(self, exctype, excinst, exctb):
+            pass
 
 
 ################################################################################
@@ -50,13 +54,13 @@ _CacheInfo = namedtuple("CacheInfo", ["hits", "misses", "maxsize", "currsize"])
 
 
 class _HashedSeq(list):
-    """ This class guarantees that hash() will be called no more than once
-        per element.  This is important because the lru_cache() will hash
-        the key multiple times on a cache miss.
+    """This class guarantees that hash() will be called no more than once
+    per element.  This is important because the lru_cache() will hash
+    the key multiple times on a cache miss.
 
     """
 
-    __slots__ = 'hashvalue'
+    __slots__ = "hashvalue"
 
     def __init__(self, tup, hash=hash):
         self[:] = tup
@@ -66,10 +70,17 @@ class _HashedSeq(list):
         return self.hashvalue
 
 
-def _make_key(args, kwds, typed,
-              kwd_mark=(object(),),
-              fasttypes={int, str, frozenset, type(None)},
-              sorted=sorted, tuple=tuple, type=type, len=len):
+def _make_key(
+    args,
+    kwds,
+    typed,
+    kwd_mark=(object(),),
+    fasttypes={int, str, frozenset, type(None)},
+    sorted=sorted,
+    tuple=tuple,
+    type=type,
+    len=len,
+):
     """Make a cache key from optionally typed positional and keyword arguments
 
     The key is constructed in a way that is flat as possible rather than
@@ -130,31 +141,32 @@ def persistent_lru_cache(filename, save_every=1, maxsize=128, typed=False):
     # to allow the implementation to change (including a possible C version).
 
     # Constants shared by all lru cache instances:
-    sentinel = object()          # unique object used to signal cache misses
-    make_key = _make_key         # build a key from the function arguments
-    PREV, NEXT, KEY, RESULT = 0, 1, 2, 3   # names for the link fields
+    sentinel = object()  # unique object used to signal cache misses
+    make_key = _make_key  # build a key from the function arguments
+    PREV, NEXT, KEY, RESULT = 0, 1, 2, 3  # names for the link fields
 
     def decorating_function(user_function):
 
-        lock = RLock()           # because linkedlist updates aren't threadsafe
+        lock = RLock()  # because linkedlist updates aren't threadsafe
 
         try:
-            with open(filename, 'rb') as f:
+            with open(filename, "rb") as f:
                 cache = pickle.load(f)
         except BaseException:
             cache = {}
 
         def cache_save():
             with lock:
-                with open(filename, 'wb') as f:
+                with open(filename, "wb") as f:
                     pickle.dump(cache, f)
+
         atexit.register(cache_save)
 
         hits = misses = 0
         full = False
-        cache_get = cache.get    # bound method to lookup a key or return None
-        root = []                # root of the circular doubly linked list
-        root[:] = [root, root, None, None]     # initialize by pointing to self
+        cache_get = cache.get  # bound method to lookup a key or return None
+        root = []  # root of the circular doubly linked list
+        root[:] = [root, root, None, None]  # initialize by pointing to self
 
         if maxsize == 0:
 
@@ -235,7 +247,7 @@ def persistent_lru_cache(filename, save_every=1, maxsize=128, typed=False):
                         last = root[PREV]
                         link = [last, root, key, result]
                         last[NEXT] = root[PREV] = cache[key] = link
-                        full = (len(cache) >= maxsize)
+                        full = len(cache) >= maxsize
                     misses += 1
                     if save_every and not misses % save_every:
                         cache_save()

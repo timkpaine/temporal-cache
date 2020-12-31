@@ -1,15 +1,16 @@
 # temporal-cache
+
 Time-based cache invalidation
 
-
-[![Build Status](https://dev.azure.com/tpaine154/pyEX/_apis/build/status/timkpaine.temporal-cache?branchName=main)](https://dev.azure.com/tpaine154/pyEX/_build/latest?definitionId=5&branchName=main)
-[![Coverage](https://img.shields.io/azure-devops/coverage/tpaine154/pyEX/5/main)](https://img.shields.io/azure-devops/coverage/tpaine154/pyEX/5)
+[![Build Status](https://github.com/timkpaine/temporal-cache/workflows/Build%20Status/badge.svg?branch=main)](https://github.com/timkpaine/temporal-cache/actions?query=workflow%3A%22Build+Status%22)
+[![Coverage](https://codecov.io/gh/timkpaine/temporal-cache/branch/main/graph/badge.svg?token=ag2j2TV2wE)](https://codecov.io/gh/timkpaine/temporal-cache)
 [![License](https://img.shields.io/github/license/timkpaine/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
 [![PyPI](https://img.shields.io/pypi/v/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
 [![Docs](https://img.shields.io/readthedocs/temporal-cache.svg)](https://temporal-cache.readthedocs.io)
 
 
 ## Install
+
 From pip
 
 `pip install temporal-cache`
@@ -19,6 +20,7 @@ Or from source
 `python setup.py install`
 
 ## Why?
+
 I needed something that would automagically refresh at 4:00pm when markets close.
 
 ```python3
@@ -29,6 +31,7 @@ I needed something that would automagically refresh at 4:00pm when markets close
 ```
 
 ## Interval Cache
+
 The interval cache expires every `time` interval since its first use
 
 ```python3
@@ -40,6 +43,7 @@ The interval cache expires every `time` interval since its first use
 
 
 ## Expire Cache
+
 The expire cache expires on the time given, in scheduler/cron style.
 
 ```python3
@@ -51,5 +55,5 @@ The expire cache expires on the time given, in scheduler/cron style.
 
 
 ## Caveats
-Python hashing symantics persist. Dicts will be frozen, lists will be converted to tuples. Users are advised to pre-freeze to avoid issues.
 
+Python hashing symantics persist. Dicts will be frozen, lists will be converted to tuples. Users are advised to pre-freeze to avoid issues.
