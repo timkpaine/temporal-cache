@@ -1,13 +1,12 @@
-from functools import lru_cache, wraps
-from six import with_metaclass
 from abc import ABCMeta, abstractmethod
+from functools import lru_cache, wraps
 
 
 class TCException(Exception):
     pass
 
 
-class StorageBase(with_metaclass(ABCMeta)):
+class StorageBase(metaclass=ABCMeta):
     @abstractmethod
     def cache_clear(self):
         pass
