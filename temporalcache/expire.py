@@ -52,7 +52,7 @@ def expire(
     # elif day is not None:
     #     day += 1  # for convenience
 
-    if day_of_week is not None and (day_of_week <= 0 or day > 8):
+    if day_of_week is not None and (day_of_week <= 0 or day_of_week > 8):
         raise TCException("day_of_weel must be > 0, < 8")
 
     if week is not None and (week <= 0 or week > 5):
