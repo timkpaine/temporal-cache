@@ -1,6 +1,14 @@
+# *****************************************************************************
+#
+# Copyright (c) 2021, the temporal-cache authors.
+#
+# This file is part of the temporal-cache library, distributed under the terms of
+# the Apache License 2.0.  The full license can be found in the LICENSE file.
+#
 import datetime
-import pytz
 import time
+
+import pytz
 
 
 class TestExpire:
@@ -22,6 +30,7 @@ class TestExpire:
 
     def test_blank(self):
         from random import random
+
         from temporalcache import expire
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 0)
@@ -44,6 +53,7 @@ class TestExpire:
 
     def test_mutable(self):
         from random import random
+
         from temporalcache import expire
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -66,6 +76,7 @@ class TestExpire:
 
     def test_seconds(self):
         from random import random
+
         from temporalcache import expire
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -92,6 +103,7 @@ class TestExpire:
 
     def test_minutes(self):
         from random import random
+
         from temporalcache import expire
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -118,6 +130,7 @@ class TestExpire:
 
     def test_minutely(self):
         from random import random
+
         from temporalcache import expire_minutely
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -144,6 +157,7 @@ class TestExpire:
 
     def test_hourly(self):
         from random import random
+
         from temporalcache import expire_hourly
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -170,6 +184,7 @@ class TestExpire:
 
     def test_hours(self):
         from random import random
+
         from temporalcache import expire
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -196,6 +211,7 @@ class TestExpire:
 
     def test_daily(self):
         from random import random
+
         from temporalcache import expire_daily
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -222,6 +238,7 @@ class TestExpire:
 
     def test_days(self):
         from random import random
+
         from temporalcache import expire
 
         self._now = datetime.datetime(2018, 1, 1, 1, 1, 1)
@@ -248,7 +265,8 @@ class TestExpire:
 
     def test_checks1(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -262,7 +280,8 @@ class TestExpire:
 
     def test_checks2(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -276,7 +295,8 @@ class TestExpire:
 
     def test_checks3(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -290,7 +310,8 @@ class TestExpire:
 
     def test_checks4(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -304,7 +325,8 @@ class TestExpire:
 
     def test_checks5(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -318,7 +340,8 @@ class TestExpire:
 
     def test_checks6(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -332,7 +355,8 @@ class TestExpire:
 
     def test_checks7(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -346,7 +370,8 @@ class TestExpire:
 
     def test_checks8(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -360,7 +385,8 @@ class TestExpire:
 
     def test_checks9(self):
         from random import random
-        from temporalcache import expire, TCException
+
+        from temporalcache import TCException, expire
 
         try:
 
@@ -376,6 +402,7 @@ class TestExpire:
 class TestExpireTZ:
     def test_tzexpire(self):
         from random import random
+
         from temporalcache import expire
 
         now = datetime.datetime.now(tz=pytz.UTC)

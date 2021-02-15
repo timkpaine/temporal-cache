@@ -57,3 +57,12 @@ The expire cache expires on the time given, in scheduler/cron style.
 ## Caveats
 
 Python hashing symantics persist. Dicts will be frozen, lists will be converted to tuples. Users are advised to pre-freeze to avoid issues.
+
+## Development
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+## License
+
+This software is licensed under the Apache 2.0 license. See the
+[LICENSE](LICENSE) and [AUTHORS](AUTHORS) files for details.
