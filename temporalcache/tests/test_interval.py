@@ -1,3 +1,10 @@
+# *****************************************************************************
+#
+# Copyright (c) 2021, the temporal-cache authors.
+#
+# This file is part of the temporal-cache library, distributed under the terms of
+# the Apache License 2.0.  The full license can be found in the LICENSE file.
+#
 import datetime
 
 
@@ -21,6 +28,7 @@ class TestInterval:
 
     def test_blank(self):
         from random import random
+
         from temporalcache import interval
 
         self._delay = datetime.timedelta(seconds=0)
@@ -42,6 +50,7 @@ class TestInterval:
 
     def test_mutable(self):
         from random import random
+
         from temporalcache import interval
 
         self._delay = datetime.timedelta(seconds=0)
@@ -63,6 +72,7 @@ class TestInterval:
 
     def test_seconds(self):
         from random import random
+
         from temporalcache import interval
 
         self._delay = datetime.timedelta(seconds=0)
@@ -84,6 +94,7 @@ class TestInterval:
 
     def test_minutes(self):
         from random import random
+
         import temporalcache
 
         self._delay = datetime.timedelta(seconds=0)
@@ -104,6 +115,7 @@ class TestInterval:
 
     def test_minutely(self):
         from random import random
+
         import temporalcache
 
         self._delay = datetime.timedelta(seconds=0)
@@ -124,6 +136,7 @@ class TestInterval:
 
     def test_hours(self):
         from random import random
+
         import temporalcache
 
         self._delay = datetime.timedelta(seconds=0)
@@ -144,6 +157,7 @@ class TestInterval:
 
     def test_hourly(self):
         from random import random
+
         import temporalcache
 
         self._delay = datetime.timedelta(seconds=0)
@@ -164,6 +178,7 @@ class TestInterval:
 
     def test_daily(self):
         from random import random
+
         import temporalcache
 
         self._delay = datetime.timedelta(seconds=0)
@@ -184,6 +199,7 @@ class TestInterval:
 
     def test_monthly(self):
         from random import random
+
         import temporalcache
 
         self._delay = datetime.timedelta(seconds=0)
