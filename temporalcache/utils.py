@@ -5,8 +5,21 @@
 # This file is part of the temporal-cache library, distributed under the terms of
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
+import os
 from abc import ABCMeta, abstractmethod
 from functools import lru_cache, wraps
+
+TEMPORAL_CACHE_GLOBAL_DISABLE = os.environ.get("TEMPORAL_CACHE_DISABLE", False)
+
+
+def disable():
+    global TEMPORAL_CACHE_GLOBAL_DISABLE
+    TEMPORAL_CACHE_GLOBAL_DISABLE = True
+
+
+def enable():
+    global TEMPORAL_CACHE_GLOBAL_DISABLE
+    TEMPORAL_CACHE_GLOBAL_DISABLE = False
 
 
 class TCException(Exception):

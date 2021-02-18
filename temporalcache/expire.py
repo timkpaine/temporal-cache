@@ -13,6 +13,7 @@ import pytz
 from frozendict import frozendict
 from tzlocal import get_localzone
 
+from . import utils
 from .persistent_lru_cache import persistent_lru_cache
 from .utils import TCException, should_expire
 
@@ -100,8 +101,11 @@ def expire(
             nonlocal last
 
             now = datetime.datetime.now(tz=tz)
-            if should_expire(
-                last, now, second, minute, hour, day, day_of_week, week, month
+            if (
+                should_expire(
+                    last, now, second, minute, hour, day, day_of_week, week, month
+                )
+                or utils.TEMPORAL_CACHE_GLOBAL_DISABLE
             ):
                 foo.cache_clear()
             last = now
