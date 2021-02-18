@@ -12,4 +12,10 @@ from .expire import hourly as expire_hourly
 from .expire import minutely as expire_minutely
 from .expire import monthly as expire_monthly
 from .interval import daily, hourly, interval, minutely, monthly
-from .utils import StorageBase, TCException
+from .utils import (
+    TEMPORAL_CACHE_GLOBAL_DISABLE,
+    StorageBase,
+    TCException,
+    disable,
+    enable,
+)

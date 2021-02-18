@@ -10,6 +10,7 @@ from functools import lru_cache, wraps
 
 from frozendict import frozendict
 
+from . import utils
 from .persistent_lru_cache import persistent_lru_cache
 from .utils import calc
 
@@ -48,7 +49,7 @@ def interval(
             now = datetime.datetime.now()
             if (now - last).total_seconds() > calc(
                 seconds, minutes, hours, days, weeks, months, years
-            ):
+            ) or utils.TEMPORAL_CACHE_GLOBAL_DISABLE:
                 foo.cache_clear()
             last = now
 
