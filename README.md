@@ -2,9 +2,9 @@
 
 Time-based cache invalidation
 
-[![Build Status](https://github.com/timkpaine/temporal-cache/workflows/Build%20Status/badge.svg?branch=main)](https://github.com/timkpaine/temporal-cache/actions?query=workflow%3A%22Build+Status%22)
-[![Coverage](https://codecov.io/gh/timkpaine/temporal-cache/branch/main/graph/badge.svg?token=ag2j2TV2wE)](https://codecov.io/gh/timkpaine/temporal-cache)
-[![License](https://img.shields.io/github/license/timkpaine/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
+[![Build Status](https://github.com/iexcloud/temporal-cache/workflows/Build%20Status/badge.svg?branch=main)](https://github.com/iexcloud/temporal-cache/actions?query=workflow%3A%22Build+Status%22)
+[![Coverage](https://codecov.io/gh/iexcloud/temporal-cache/branch/main/graph/badge.svg?token=ag2j2TV2wE)](https://codecov.io/gh/iexcloud/temporal-cache)
+[![License](https://img.shields.io/github/license/iexcloud/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
 [![PyPI](https://img.shields.io/pypi/v/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
 [![Docs](https://img.shields.io/readthedocs/temporal-cache.svg)](https://temporal-cache.readthedocs.io)
 
