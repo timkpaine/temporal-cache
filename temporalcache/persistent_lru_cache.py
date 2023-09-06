@@ -146,7 +146,6 @@ def persistent_lru_cache(filename, save_every=1, maxsize=128, typed=False):
     PREV, NEXT, KEY, RESULT = 0, 1, 2, 3  # names for the link fields
 
     def decorating_function(user_function):
-
         lock = RLock()  # because linkedlist updates aren't threadsafe
 
         try:
