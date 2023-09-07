@@ -33,6 +33,7 @@ with open(pjoin(here, "README.md"), encoding="utf-8") as f:
 
 requires = [
     "frozendict>=1.2",
+    "pytz",
     "tzlocal>=2.0.0",
 ]
 
