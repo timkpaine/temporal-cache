@@ -23,7 +23,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.9]
-        event-name: [push]
 
     steps:
     - uses: actions/checkout@v4
@@ -47,7 +46,7 @@ jobs:
     - name: Test
       run: |
         make tests
-      if: ${{ github.event_name == matrix.event-name || matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Twine check
       run: |
@@ -58,13 +57,13 @@ jobs:
       with:
         name: pytest-results-${{ matrix.os }}-${{ matrix.python-version }}
         path: python_junit.xml
-      if: ${{ github.event_name == matrix.event-name || matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: python_junit.xml
-      if: ${{ github.event_name == matrix.event-name || matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Upload coverage
       uses: codecov/codecov-action@v3
