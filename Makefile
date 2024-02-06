@@ -5,10 +5,10 @@ tests:  ## run the tests
 	python -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	python -m flake8 temporalcache setup.py
+	python -m ruff temporalcache setup.py
 
-fix:  ## run autopep8/tslint fix
-	python -m black temporalcache/ setup.py
+fix:  ## run autofix
+	python -m ruff format temporalcache/ setup.py
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
@@ -22,10 +22,6 @@ install:  ## install to site-packages
 
 dev:
 	python -m pip install .[dev]
-
-docs:  ## make documentation
-	make -C ./docs html
-	open ./docs/_build/html/index.html
 
 dist:  ## create dists
 	rm -rf dist build
