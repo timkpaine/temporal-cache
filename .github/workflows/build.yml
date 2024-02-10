@@ -66,5 +66,5 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Upload coverage
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       if: ${{ github.event_name == matrix.event-name || matrix.os == 'ubuntu-latest' }}
