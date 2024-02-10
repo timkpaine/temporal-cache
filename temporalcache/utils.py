@@ -81,15 +81,11 @@ def _secondly(last, now, secondly):
 
 
 def _minutely(last, now, minutely):
-    return _base(
-        last=last, now=now, lap=minutely, offset=3600, multiple=60, attr="minute"
-    )
+    return _base(last=last, now=now, lap=minutely, offset=3600, multiple=60, attr="minute")
 
 
 def _hourly(last, now, hourly, tz=None):
-    return _base(
-        last=last, now=now, lap=hourly, offset=3600 * 24, multiple=3600, attr="hour"
-    )
+    return _base(last=last, now=now, lap=hourly, offset=3600 * 24, multiple=3600, attr="hour")
 
 
 def _daily(last, now, daily, tz=None):

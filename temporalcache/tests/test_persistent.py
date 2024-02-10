@@ -12,7 +12,7 @@ from tempfile import NamedTemporaryFile
 if os.name != "nt":
 
     class TestExpire:
-        def setup(self):
+        def setup_method(self):
             self._olddatetime = datetime.datetime
 
             class NewDateTime(datetime.datetime):
@@ -25,7 +25,7 @@ if os.name != "nt":
 
             datetime.datetime = NewDateTime
 
-        def teardown(self):
+        def teardown_method(self):
             datetime.datetime = self._olddatetime
 
         def test_blank(self):
