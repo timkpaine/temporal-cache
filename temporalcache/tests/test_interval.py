@@ -9,7 +9,7 @@ import datetime
 
 
 class TestInterval:
-    def setup(self):
+    def setup_method(self):
         self._olddatetime = datetime.datetime
         _now = datetime.datetime.now()
 
@@ -23,7 +23,7 @@ class TestInterval:
 
         datetime.datetime = NewDateTime
 
-    def teardown(self):
+    def teardown_method(self):
         datetime.datetime = self._olddatetime
 
     def test_blank(self):

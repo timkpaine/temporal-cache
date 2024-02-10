@@ -12,7 +12,7 @@ import pytz
 
 
 class TestExpire:
-    def setup(self):
+    def setup_method(self):
         self._olddatetime = datetime.datetime
 
         class NewDateTime(datetime.datetime):
@@ -25,7 +25,7 @@ class TestExpire:
 
         datetime.datetime = NewDateTime
 
-    def teardown(self):
+    def teardown_method(self):
         datetime.datetime = self._olddatetime
 
     def test_blank(self):
