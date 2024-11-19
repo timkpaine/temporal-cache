@@ -5,9 +5,11 @@ tests:  ## run the tests
 	python -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	python -m ruff temporalcache setup.py
+	python -m ruff check temporalcache setup.py
+	python -m ruff format --check temporalcache setup.py
 
 fix:  ## run autofix
+	python -m ruff check --fix temporalcache setup.py
 	python -m ruff format temporalcache/ setup.py
 
 clean: ## clean the repository
