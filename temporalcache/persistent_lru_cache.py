@@ -32,9 +32,9 @@ __all__ = ["persistent_lru_cache"]
 try:
     import atexit
     import pickle
-    from functools import update_wrapper
-    from collections import namedtuple
     from _thread import RLock
+    from collections import namedtuple
+    from functools import update_wrapper
 except BaseException:
 
     class RLock:

@@ -1,37 +1,112 @@
-build:  ## Build the repository
-	python setup.py build 
+#########
+# BUILD #
+#########
+.PHONY: develop build install
 
-tests:  ## run the tests
-	python -m pytest -vvv temporalcache/tests --cov=temporalcache --junitxml=python_junit.xml --cov-report=xml --cov-branch
+develop:  ## install dependencies and build library
+	python -m pip install -e .[develop]
 
-lint: ## run linter
-	python -m ruff check temporalcache setup.py
-	python -m ruff format --check temporalcache setup.py
+build:  ## build the python library
+	python setup.py build build_ext --inplace
 
-fix:  ## run autofix
-	python -m ruff check --fix temporalcache setup.py
-	python -m ruff format temporalcache/ setup.py
-
-clean: ## clean the repository
-	find . -name "__pycache__" | xargs  rm -rf 
-	find . -name "*.pyc" | xargs rm -rf 
-	find . -name ".ipynb_checkpoints" | xargs  rm -rf 
-	rm -rf .coverage cover htmlcov logs build dist *.egg-info
-	make -C ./docs clean
-
-install:  ## install to site-packages
+install:  ## install library
 	python -m pip install .
 
-dev:
-	python -m pip install .[dev]
+#########
+# LINTS #
+#########
+.PHONY: lint lints fix format
 
-dist:  ## create dists
-	rm -rf dist build
-	python setup.py sdist bdist_wheel
+lint:  ## run python linter with ruff
+	python -m ruff check temporalcache
+	python -m ruff format --check temporalcache
+
+# Alias
+lints: lint
+
+fix:  ## fix python formatting with ruff
+	python -m ruff check --fix temporalcache
+	python -m ruff format temporalcache
+
+# alias
+format: fix
+
+################
+# Other Checks #
+################
+.PHONY: check-manifest checks check annotate
+
+check-manifest:  ## check python sdist manifest with check-manifest
+	check-manifest -v
+
+checks: check-manifest
+
+# Alias
+check: checks
+
+annotate:  ## run python type annotation checks with mypy
+	python -m mypy ./temporalcache
+
+#########
+# TESTS #
+#########
+.PHONY: test coverage tests
+
+test:  ## run python tests
+	python -m pytest -v temporalcache/tests
+
+coverage:  ## run tests and collect test coverage
+	python -m pytest -v temporalcache/tests --cov=temporalcache --cov-report term-missing --cov-report xml
+
+# Alias
+tests: test
+
+###########
+# VERSION #
+###########
+.PHONY: show-version patch minor major
+
+show-version:  ## show current library version
+	@bump-my-version show current_version
+
+patch:  ## bump a patch version
+	@bump-my-version bump patch
+
+minor:  ## bump a minor version
+	@bump-my-version bump minor
+
+major:  ## bump a major version
+	@bump-my-version bump major
+
+########
+# DIST #
+########
+.PHONY: dist dist-build dist-sdist dist-local-wheel publish
+
+dist-build:  # build python dists
+	python -m build -w -s
+
+dist-check:  ## run python dist checker with twine
 	python -m twine check dist/*
-	
-publish: dist  ## dist to pypi
-	python -m twine upload dist/* --skip-existing
+
+dist: clean build dist-build dist-check  ## build all dists
+
+publish: dist  # publish python assets
+
+#########
+# CLEAN #
+#########
+.PHONY: deep-clean clean
+
+deep-clean: ## clean everything from the repository
+	git clean -fdx
+
+clean: ## clean the repository
+	rm -rf .coverage coverage cover htmlcov logs build dist *.egg-info
+
+############################################################################################
+
+.PHONY: help
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help
@@ -40,5 +115,3 @@ help:
 
 print-%:
 	@echo '$*=$($*)'
-
-.PHONY: clean build run test tests help annotate annotate_l docs dist
