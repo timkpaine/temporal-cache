@@ -1,3 +1,0 @@
-prune examples/
-include requirements.txt
-include LICENSE

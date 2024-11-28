@@ -15,9 +15,7 @@ from .persistent_lru_cache import persistent_lru_cache
 from .utils import calc
 
 
-def interval(
-    seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0, maxsize=128, persistent="", custom=None, **kwargs
-):
+def interval(seconds=0, minutes=0, hours=0, days=0, weeks=0, months=0, years=0, maxsize=128, persistent="", custom=None, **kwargs):
     """Expires all entries in the cache every interval"""
     if not any((seconds, minutes, hours, days, weeks, months, years)):
         seconds = 1
@@ -37,22 +35,12 @@ def interval(
             nonlocal last
 
             now = datetime.datetime.now()
-            if (now - last).total_seconds() > calc(
-                seconds, minutes, hours, days, weeks, months, years
-            ) or utils.TEMPORAL_CACHE_GLOBAL_DISABLE:
+            if (now - last).total_seconds() > calc(seconds, minutes, hours, days, weeks, months, years) or utils.TEMPORAL_CACHE_GLOBAL_DISABLE:
                 foo.cache_clear()
             last = now
 
-            args = tuple(
-                [
-                    frozendict(arg) if isinstance(arg, dict) else tuple(arg) if isinstance(arg, list) else arg
-                    for arg in args
-                ]
-            )
-            kwargs = {
-                k: frozendict(v) if isinstance(v, dict) else tuple(v) if isinstance(v, list) else v
-                for k, v in kwargs.items()
-            }
+            args = tuple([frozendict(arg) if isinstance(arg, dict) else tuple(arg) if isinstance(arg, list) else arg for arg in args])
+            kwargs = {k: frozendict(v) if isinstance(v, dict) else tuple(v) if isinstance(v, list) else v for k, v in kwargs.items()}
             return foo(*args, **kwargs)
 
         return _wrapped_foo

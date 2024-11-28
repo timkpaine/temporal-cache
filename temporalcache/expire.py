@@ -101,23 +101,12 @@ def expire(
             nonlocal last
 
             now = datetime.datetime.now(tz=tz)
-            if (
-                should_expire(last, now, second, minute, hour, day, day_of_week, week, month)
-                or utils.TEMPORAL_CACHE_GLOBAL_DISABLE
-            ):
+            if should_expire(last, now, second, minute, hour, day, day_of_week, week, month) or utils.TEMPORAL_CACHE_GLOBAL_DISABLE:
                 foo.cache_clear()
             last = now
 
-            args = tuple(
-                [
-                    frozendict(arg) if isinstance(arg, dict) else tuple(arg) if isinstance(arg, list) else arg
-                    for arg in args
-                ]
-            )
-            kwargs = {
-                k: frozendict(v) if isinstance(v, dict) else tuple(v) if isinstance(v, list) else v
-                for k, v in kwargs.items()
-            }
+            args = tuple([frozendict(arg) if isinstance(arg, dict) else tuple(arg) if isinstance(arg, list) else arg for arg in args])
+            kwargs = {k: frozendict(v) if isinstance(v, dict) else tuple(v) if isinstance(v, list) else v for k, v in kwargs.items()}
 
             return foo(*args, **kwargs)
 

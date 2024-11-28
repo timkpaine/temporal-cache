@@ -1,23 +1,22 @@
 # temporal-cache
 
-Time-based cache invalidation
+Time based function caching
 
-[![Build Status](https://github.com/timkpaine/temporal-cache/workflows/Build%20Status/badge.svg?branch=main)](https://github.com/timkpaine/temporal-cache/actions?query=workflow%3A%22Build+Status%22)
-[![Coverage](https://codecov.io/gh/timkpaine/temporal-cache/branch/main/graph/badge.svg?token=ag2j2TV2wE)](https://codecov.io/gh/timkpaine/temporal-cache)
-[![License](https://img.shields.io/github/license/timkpaine/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
-[![PyPI](https://img.shields.io/pypi/v/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache/)
-[![Docs](https://img.shields.io/readthedocs/temporal-cache.svg)](https://temporal-cache.readthedocs.io)
+[![Build Status](https://github.com/timkpaine/temporal-cache/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/timkpaine/temporal-cache/actions/workflows/build.yml)
+[![codecov](https://codecov.io/gh/timkpaine/temporal-cache/branch/main/graph/badge.svg)](https://codecov.io/gh/timkpaine/temporal-cache)
+[![License](https://img.shields.io/github/license/timkpaine/temporal-cache)](https://github.com/timkpaine/temporal-cache)
+[![PyPI](https://img.shields.io/pypi/v/temporal-cache.svg)](https://pypi.python.org/pypi/temporal-cache)
 
 
 ## Install
 
-From pip
+From **pip**:
 
 `pip install temporal-cache`
 
-Or from source
+From **conda**:
 
-`python setup.py install`
+`conda install temporal-cache -c conda-forge`
 
 ## Why?
 
@@ -57,12 +56,3 @@ The expire cache expires on the time given, in scheduler/cron style.
 ## Caveats
 
 Python hashing symantics persist. Dicts will be frozen, lists will be converted to tuples. Users are advised to pre-freeze to avoid issues.
-
-## Development
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-## License
-
-This software is licensed under the Apache 2.0 license. See the
-[LICENSE](LICENSE) and [AUTHORS](AUTHORS) files for details.
