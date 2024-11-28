@@ -141,6 +141,7 @@ section-order = ["future", "standard-library", "third-party", "first-party", "lo
 "__init__.py" = ["F401"]
 
 [tool.yardang]
+module = "temporalcache"
 pages = [
     "docs/src/api.md",
 ]
