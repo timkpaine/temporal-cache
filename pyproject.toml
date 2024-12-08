@@ -1,6 +1,6 @@
 [build-system]
-requires = ["hatchling"]
-build-backend="hatchling.build"
+requires = ["maturin>=1,<2"]
+build-backend = "maturin"
 
 [project]
 name = "temporal-cache"
@@ -14,6 +14,7 @@ keywords = []
 
 classifiers = [
     "Development Status :: 3 - Alpha",
+    "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python :: 3",
@@ -24,7 +25,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "frozendict>=1.2",
+    "frozendict>1.2",
     "pytz",
     "tzlocal>=2.0.0",
 ]
@@ -38,7 +39,8 @@ develop = [
     "build",
     "bump-my-version",
     "check-manifest",
-    "hatchling",
+    "cibuildwheel",
+    "maturin>=1,<2",
     "pytest",
     "pytest-cov",
     "ruff",
@@ -49,17 +51,27 @@ develop = [
 [project.scripts]
 
 [tool.bumpversion]
-current_version = "0.1.0"
+current_version = "0.1.5"
 commit = true
 tag = true
 
 [[tool.bumpversion.files]]
-filename = "temporalcache/__init__.py"
+filename = "temporal_cache/__init__.py"
 search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "Cargo.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "rust/Cargo.toml"
 search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
@@ -69,12 +81,35 @@ ignore = [
     "Makefile",
     "setup.py",
     "docs/**/*",
+    "rust/.config/*",
+    "rust/Cargo.lock",
+    "rust/README.md",
 ]
+
+[tool.cibuildwheel]
+before-build = "rustup show"
+build = "cp39-*"
+skip = "*musllinux*"
+test-command = "pytest -vvv {project}/temporal_cache/tests"
+test-requires = ["pytest", "pytest-cov", "pytest-sugar", "pytest-xdist"]
+
+[tool.cibuildwheel.linux]
+before-build = "curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain=stable --profile=minimal -y && rustup show"
+environment = {PATH="$HOME/.cargo/bin:$PATH", CARGO_TERM_COLOR="always"}
+archs = "x86_64"
+
+[tool.cibuildwheel.macos]
+archs = "x86_64 arm64"
+environment = {MACOS_DEPLOYMENT_TARGET=11.0}
+
+[tool.cibuildwheel.windows]
+environment = {PATH="$UserProfile\\.cargo\bin;$PATH"}
+archs = "AMD64 x86"
 
 [tool.coverage.run]
 branch = true
 omit = [
-    "temporalcache/tests/integration/",
+    "temporal_cache/tests/integration/",
 ]
 [tool.coverage.report]
 exclude_also = [
@@ -85,45 +120,10 @@ exclude_also = [
 ignore_errors = true
 fail_under = 50
 
-[tool.hatch.build]
-artifacts = []
-
-[tool.hatch.build.sources]
-src = "/"
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "/temporalcache",
-    "LICENSE",
-    "README.md",
-]
-exclude = [
-    ".copier-answers.yml",
-    "/.github",
-    "/.gitattributes",
-    "/.gitignore",
-    "/docs/**/*",
-]
-
-[tool.hatch.build.targets.wheel]
-include = [
-    "/temporalcache",
-]
-exclude = [
-    ".copier-answers.yml",
-    "/.github",
-    "/.gitattributes",
-    "/.gitignore",
-    "/pyproject.toml",
-    "/docs/**/*",
-]
-
-[tool.hatch.build.targets.wheel.shared-data]
-
 [tool.pytest.ini_options]
 addopts = ["-vvv", "--junitxml=junit.xml"]
 asyncio_mode = "strict"
-testpaths = "temporalcache/tests"
+testpaths = "temporal_cache/tests"
 
 [tool.ruff]
 line-length = 150
@@ -134,14 +134,8 @@ extend-select = ["I"]
 [tool.ruff.lint.isort]
 combine-as-imports = true
 default-section = "third-party"
-known-first-party = ["temporalcache"]
+known-first-party = ["temporal_cache"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-
-[tool.yardang]
-module = "temporalcache"
-pages = [
-    "docs/src/api.md",
-]
