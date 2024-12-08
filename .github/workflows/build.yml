@@ -29,8 +29,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.11"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.9"]
 
     steps:
     - uses: actions/checkout@v4
@@ -42,12 +42,38 @@ jobs:
         cache: 'pip'
         cache-dependency-path: 'pyproject.toml'
 
+    - name: Set up Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        components: clippy, rustfmt
+
+    - name: Setup Rust cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        key: ${{ matrix.os }}
+  
+    - name: Setup rust targets (MacOS)
+      run: |
+        rustup toolchain install stable-x86_64-apple-darwin
+        rustup target add x86_64-apple-darwin
+        rustup toolchain install stable-aarch64-apple-darwin
+        rustup target add aarch64-apple-darwin
+      if: matrix.os == 'macos-latest'
+
+    - name: Setup rust targets (Windows)
+      run: |
+        rustup toolchain install stable-x86_64-pc-windows-msvc
+        rustup target add x86_64-pc-windows-msvc
+        rustup toolchain install stable-i686-pc-windows-msvc
+        rustup target add i686-pc-windows-msvc
+      if: matrix.os == 'windows-latest'
+
     - name: Install dependencies
       run: make develop
 
     - name: Lint
       run: make lint
-      if: matrix.os == 'ubuntu-latest'
 
     - name: Checks
       run: make checks
@@ -58,13 +84,13 @@ jobs:
 
     - name: Test
       run: make coverage
-      if: matrix.os == 'ubuntu-latest'
 
     - name: Upload test results (Python)
       uses: actions/upload-artifact@v4
       with:
         name: test-results-${{ matrix.os }}-${{ matrix.python-version }}
-        path: junit.xml
+        path: |
+          **/junit.xml
       if: ${{ always() }}
 
     - name: Publish Unit Test Results
@@ -80,11 +106,22 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Make dist
-      run: make dist
+      run: |
+        make dist-rust
+        make dist-py-sdist
+        make dist-py-wheel
+        make dist-check
       if: matrix.os == 'ubuntu-latest'
+
+    - name: Make dist
+      run: |
+        make dist-py-wheel
+        make dist-check
+      env:
+        CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=11.0
+      if: matrix.os != 'ubuntu-latest'
 
     - uses: actions/upload-artifact@v4
       with:
         name: dist-${{matrix.os}}
         path: dist
-      if: matrix.os == 'ubuntu-latest'

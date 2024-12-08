@@ -1,32 +1,63 @@
 #########
 # BUILD #
 #########
-.PHONY: develop build install
-
-develop:  ## install dependencies and build library
+.PHONY: develop-py develop-rust develop
+develop-py:
 	python -m pip install -e .[develop]
 
-build:  ## build the python library
-	python setup.py build build_ext --inplace
+develop-rust:
+	make -C rust develop
 
-install:  ## install library
+develop: develop-rust develop-py  ## setup project for development
+
+.PHONY: build-py build-rust build dev
+build-py:
+	maturin build
+
+build-rust:
+	make -C rust build
+
+dev: build  ## lightweight in-place build for iterative dev
+	$(_CP_COMMAND)
+
+build: build-rust build-py  ## build the project
+
+.PHONY: install
+install:  ## install python library
 	python -m pip install .
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+	_CP_COMMAND := cp target/debug/libtemporal_cache.dylib temporal_cache/temporal_cache.abi3.so
+else
+	_CP_COMMAND := cp target/debug/libtemporal_cache.so temporal_cache/temporal_cache.abi3.so
+endif
 
 #########
 # LINTS #
 #########
-.PHONY: lint lints fix format
+.PHONY: lint-py lint-rust lint lints
+lint-py:  ## run python linter with ruff
+	python -m ruff check temporal_cache
+	python -m ruff format --check temporal_cache
 
-lint:  ## run python linter with ruff
-	python -m ruff check temporalcache
-	python -m ruff format --check temporalcache
+lint-rust:  ## run rust linter
+	make -C rust lint
 
-# Alias
+lint: lint-rust lint-py  ## run project linters
+
+# alias
 lints: lint
 
-fix:  ## fix python formatting with ruff
-	python -m ruff check --fix temporalcache
-	python -m ruff format temporalcache
+.PHONY: fix-py fix-rust fix format
+fix-py:  ## fix python formatting with ruff
+	python -m ruff check --fix temporal_cache
+	python -m ruff format temporal_cache
+
+fix-rust:  ## fix rust formatting
+	make -C rust fix
+
+fix: fix-rust fix-py  ## run project autoformatters
 
 # alias
 format: fix
@@ -34,31 +65,44 @@ format: fix
 ################
 # Other Checks #
 ################
-.PHONY: check-manifest checks check annotate
+.PHONY: check-manifest checks check
 
 check-manifest:  ## check python sdist manifest with check-manifest
 	check-manifest -v
 
 checks: check-manifest
 
-# Alias
+# alias
 check: checks
-
-annotate:  ## run python type annotation checks with mypy
-	python -m mypy ./temporalcache
 
 #########
 # TESTS #
 #########
+.PHONY: test-py tests-py coverage-py
+test-py:  ## run python tests
+	python -m pytest -v temporal_cache/tests
+
+# alias
+tests-py: test-py
+
+coverage-py:  ## run python tests and collect test coverage
+	python -m pytest -v temporal_cache/tests --cov=temporal_cache --cov-report term-missing --cov-report xml
+
+.PHONY: test-rust tests-rust coverage-rust
+test-rust:  ## run rust tests
+	make -C rust test
+
+# alias
+tests-rust: test-rust
+
+coverage-rust:  ## run rust tests and collect test coverage
+	make -C rust coverage
+
 .PHONY: test coverage tests
+test: test-py test-rust  ## run all tests
+coverage: coverage-py coverage-rust  ## run all tests and collect test coverage
 
-test:  ## run python tests
-	python -m pytest -v temporalcache/tests
-
-coverage:  ## run tests and collect test coverage
-	python -m pytest -v temporalcache/tests --cov=temporalcache --cov-report term-missing --cov-report xml
-
-# Alias
+# alias
 tests: test
 
 ###########
@@ -81,15 +125,21 @@ major:  ## bump a major version
 ########
 # DIST #
 ########
-.PHONY: dist dist-build dist-sdist dist-local-wheel publish
+.PHONY: dist-py-wheel dist-py-sdist dist-rust dist-check dist publish
 
-dist-build:  # build python dists
-	python -m build -w -s
+dist-py-wheel:  # build python wheel
+	python -m cibuildwheel --output-dir dist
+
+dist-py-sdist:  # build python sdist
+	python -m build --sdist -o dist
+
+dist-rust:  # build rust dists
+	make -C rust dist
 
 dist-check:  ## run python dist checker with twine
 	python -m twine check dist/*
 
-dist: clean build dist-build dist-check  ## build all dists
+dist: clean build dist-rust dist-py-wheel dist-py-sdist dist-check  ## build all dists
 
 publish: dist  # publish python assets
 
