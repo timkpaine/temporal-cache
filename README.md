@@ -24,9 +24,9 @@ I needed something that would automagically refresh at 4:00pm when markets close
 
 ```python3
 
-    @expire(hour=16)
-    def fetchFinancialData():
-    
+@expire(hour=16)
+def fetchFinancialData():
+    ...
 ```
 
 ## Interval Cache
@@ -35,9 +35,10 @@ The interval cache expires every `time` interval since its first use
 
 ```python3
 
-    @interval(seconds=5, minutes=2)
-    def myfoo():
-        '''myfoo's lru_cache will expire 2 minutes, 5 seconds after last use'''
+@interval(seconds=5, minutes=2)
+def myfoo():
+    '''myfoo's lru_cache will expire 2 minutes, 5 seconds after last use'''
+    ...
 ```
 
 
@@ -47,9 +48,10 @@ The expire cache expires on the time given, in scheduler/cron style.
 
 ```python3
 
-    @expire(second=5, minute=2)
-    def myfoo():
-        '''myfoo's lru_cache will expire on the second minute, fifth second of every hour, every day, etc'''
+@expire(second=5, minute=2)
+def myfoo():
+    '''myfoo's lru_cache will expire on the second minute, fifth second of every hour, every day, etc'''
+    ...
 ```
 
 
