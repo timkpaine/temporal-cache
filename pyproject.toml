@@ -5,7 +5,7 @@ build-backend="hatchling.build"
 [project]
 name = "temporal-cache"
 authors = [{name = "the temporal-cache authors", email = "3105306+timkpaine@users.noreply.github.com"}]
-description="Time based function caching"
+description = "Time based function caching"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.1.5"
@@ -14,6 +14,7 @@ keywords = []
 
 classifiers = [
     "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Programming Language :: Python :: 3",
@@ -28,10 +29,6 @@ dependencies = [
     "pytz",
     "tzlocal>=2.0.0",
 ]
-
-[project.urls]
-Repository = "https://github.com/timkpaine/temporal-cache"
-Homepage = "https://github.com/timkpaine/temporal-cache"
 
 [project.optional-dependencies]
 develop = [
@@ -48,8 +45,12 @@ develop = [
 
 [project.scripts]
 
+[project.urls]
+Repository = "https://github.com/timkpaine/temporal-cache"
+Homepage = "https://github.com/timkpaine/temporal-cache"
+
 [tool.bumpversion]
-current_version = "0.1.0"
+current_version = "0.1.5"
 commit = true
 tag = true
 
@@ -67,7 +68,6 @@ replace = 'version = "{new_version}"'
 ignore = [
     ".copier-answers.yml",
     "Makefile",
-    "setup.py",
     "docs/**/*",
 ]
 
@@ -92,31 +92,10 @@ artifacts = []
 src = "/"
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/temporalcache",
-    "LICENSE",
-    "README.md",
-]
-exclude = [
-    ".copier-answers.yml",
-    "/.github",
-    "/.gitattributes",
-    "/.gitignore",
-    "/docs/**/*",
-]
+packages = ["temporalcache"]
 
 [tool.hatch.build.targets.wheel]
-include = [
-    "/temporalcache",
-]
-exclude = [
-    ".copier-answers.yml",
-    "/.github",
-    "/.gitattributes",
-    "/.gitignore",
-    "/pyproject.toml",
-    "/docs/**/*",
-]
+packages = ["temporalcache"]
 
 [tool.hatch.build.targets.wheel.shared-data]
 
