@@ -50,7 +50,7 @@ Repository = "https://github.com/timkpaine/temporal-cache"
 Homepage = "https://github.com/timkpaine/temporal-cache"
 
 [tool.bumpversion]
-current_version = "0.1.0"
+current_version = "0.1.5"
 commit = true
 tag = true
 
