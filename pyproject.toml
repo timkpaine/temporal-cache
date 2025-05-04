@@ -103,12 +103,7 @@ packages = ["temporalcache"]
 
 [tool.pytest.ini_options]
 addopts = ["-vvv", "--junitxml=junit.xml"]
-<<<<<<< before updating
-asyncio_mode = "strict"
 testpaths = "temporalcache/tests"
-=======
-testpaths = "temporal_cache/tests"
->>>>>>> after updating
 
 [tool.ruff]
 line-length = 150
