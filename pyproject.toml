@@ -4,7 +4,7 @@ build-backend="hatchling.build"
 
 [project]
 name = "temporal-cache"
-authors = [{name = "the temporal-cache authors", email = "3105306+timkpaine@users.noreply.github.com"}]
+authors = [{name = "the temporal-cache authors", email = "dev@1kbgz.com"}]
 description = "Time based function caching"
 readme = "README.md"
 license = { text = "Apache-2.0" }
@@ -48,8 +48,8 @@ develop = [
 [project.scripts]
 
 [project.urls]
-Repository = "https://github.com/timkpaine/temporal-cache"
-Homepage = "https://github.com/timkpaine/temporal-cache"
+Repository = "https://github.com/1kbgz/temporal-cache"
+Homepage = "https://github.com/1kbgz/temporal-cache"
 
 [tool.bumpversion]
 current_version = "0.1.6"
