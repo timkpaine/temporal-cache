@@ -130,8 +130,6 @@ docs/src/_build/
 docs/api
 docs/index.md
 docs/html
-<<<<<<< before updating
-=======
 docs/jupyter_execute
 index.md
 
@@ -140,7 +138,6 @@ js/coverage
 js/dist
 js/lib
 js/node_modules
->>>>>>> after updating
 
 # Jupyter
 .ipynb_checkpoints
